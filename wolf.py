@@ -10,7 +10,7 @@ def mail_connection(email,password):
     print('connextion etablie avec succes !')
     return server
 
-#function that count emails from a document
+#function that count emails 
 def count_mails(label,filter):
     fetch= server.select_folder(label)
     emails = server.search([filter])
@@ -23,7 +23,7 @@ def folders_list():
     for folder in folders:
         print(folder[-1])
 
-#function that fetch mails object ans date
+#function that fetch emails informations
 def fetch_mails():
     for email_id in emails:
         #on recupere l'email brut d'abord
@@ -35,21 +35,37 @@ def fetch_mails():
         email_subject = processed_email_data["subject"]
         receive_date = processed_email_data["date"]
         sender= processed_email_data["from"]
+        reveiver =processed_email_data["To"]
         print(f"objet : {email_subject}")
         print(f"expediteur : {sender}")
-        print(f"objet : {receive_date}\n\n")
+        print(f"destinataire : {reveiver}")
+        print(f"date : {receive_date}\n\n")
 
+
+#function that delete emails
+def delete_emails():
+    delete_them = server.delete_messages(emails)
+    if delete_them :
+        print(f"{len(emails)} ont été ajouter a la liste de suppression !")
+
+#funtion that purge email deninitively
+def purge_emails():
+    purge_them = server.expunge()
+    if purge_them:
+        print(f"{len(emails)} ont été definitivement supprimés !")
 
     
 
 
     
 
-email = "kounougilbert288@gmail.com"
-password = "wacp viuy kqdj cdyx"
-filter_list =['ALL','SINCE','01-oct-2024']
+email = "your email here"
+password = "your gmail application password"
+filter_list =['ALL','SUBJECT','failed']
 server = mail_connection(email,password)
-emails = count_mails('[Gmail]/Spam',filter_list)
+emails = count_mails('INBOX',filter_list)
 print('nombre d\'email trouvé',len(emails))
-fetch_mails()
+#fetch_mails()
 #folders_list()
+#delete_emails()
+#purge_emails()

@@ -16,6 +16,13 @@ def count_mails(label,filter):
     emails = server.search([filter])
     return emails
 
+#folders lists
+
+def folders_list():
+    folders = server.list_folders()
+    for folder in folders:
+        print(folder[-1])
+
 #function that fetch mails object ans date
 def fetch_mails():
     for email_id in emails:
@@ -29,7 +36,7 @@ def fetch_mails():
         receive_date = processed_email_data["date"]
         sender= processed_email_data["from"]
         print(f"objet : {email_subject}")
-        print(f"objet : {sender}")
+        print(f"expediteur : {sender}")
         print(f"objet : {receive_date}\n\n")
 
 
@@ -40,8 +47,9 @@ def fetch_mails():
 
 email = "kounougilbert288@gmail.com"
 password = "wacp viuy kqdj cdyx"
-filter_list =['SEEN','SINCE','01-oct-2024']
+filter_list =['ALL','SINCE','01-oct-2024']
 server = mail_connection(email,password)
-emails = count_mails('INBOX',filter_list)
+emails = count_mails('[Gmail]/Spam',filter_list)
 print('nombre d\'email trouvé',len(emails))
 fetch_mails()
+#folders_list()
